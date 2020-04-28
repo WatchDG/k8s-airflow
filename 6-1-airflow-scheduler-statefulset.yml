@@ -21,3 +21,5 @@ spec:
           envFrom:
             - secretRef:
                 name: airflow
+          ports:
+            - containerPort: 8125
