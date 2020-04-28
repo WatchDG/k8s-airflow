@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: worker
+  namespace: airflow
+spec:
+  selector:
+    matchLabels:
+      app: worker
+  serviceName: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+        - name: worker
+          image: watchdg/airflow:1
+          args:
+            - worker
+          ports:
+            - containerPort: 8793
+          envFrom:
+            - secretRef:
+                name: airflow

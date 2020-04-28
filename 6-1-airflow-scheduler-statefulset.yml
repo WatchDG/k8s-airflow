@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: scheduler
+  namespace: airflow
+spec:
+  selector:
+    matchLabels:
+      app: scheduler
+  serviceName: scheduler
+  template:
+    metadata:
+      labels:
+        app: scheduler
+    spec:
+      containers:
+        - name: scheduler
+          image: watchdg/airflow:1
+          args:
+            - scheduler
+          envFrom:
+            - secretRef:
+                name: airflow

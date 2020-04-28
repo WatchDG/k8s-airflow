@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+  namespace: airflow
+spec:
+  selector:
+    matchLabels:
+      app: web
+  serviceName: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      initContainers:
+        - name: init
+          image: watchdg/airflow:1
+          args:
+            - initdb
+          envFrom:
+            - secretRef:
+                name: airflow
+      containers:
+        - name: web
+          image: watchdg/airflow:1
+          args:
+            - webserver
+          envFrom:
+            - secretRef:
+                name: airflow
+          ports:
+            - containerPort: 8080
