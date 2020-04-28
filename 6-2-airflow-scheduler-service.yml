@@ -7,4 +7,4 @@ spec:
   selector:
     app: scheduler
   ports:
-    - port: 80
+    - port: 8125
