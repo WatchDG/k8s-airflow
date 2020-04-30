@@ -25,6 +25,7 @@ spec:
       containers:
         - name: web
           image: watchdg/airflow:1
+          imagePullPolicy: Always
           args:
             - webserver
           envFrom:
