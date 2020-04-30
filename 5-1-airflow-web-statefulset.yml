@@ -33,7 +33,10 @@ spec:
             - git clone $(GIT_REPO) . && watch -n 60 git pull
           env:
             - name: GIT_REPO
-              value: https://github.com/WatchDG/airflow-dags.git
+              valueFrom:
+                secretKeyRef:
+                  name: airflow
+                  key: GIT_REPO
           volumeMounts:
             - name: dags
               mountPath: /opt/airflow/dags
