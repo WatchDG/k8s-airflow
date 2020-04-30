@@ -8,6 +8,7 @@ spec:
     matchLabels:
       app: worker
   serviceName: worker
+  replicas: 2
   template:
     metadata:
       labels:
