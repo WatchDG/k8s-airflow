@@ -22,7 +22,7 @@ spec:
           command:
             - sh
             - -c
-            - git clone $(GIT_REPO) . && watch -n 60 git pull
+            - git clone $(GIT_REPO) . && watch -n 300 git pull
           env:
             - name: GIT_REPO
               valueFrom:
