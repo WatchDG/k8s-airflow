@@ -23,6 +23,20 @@ spec:
             - secretRef:
                 name: airflow
       containers:
+        - name: repo
+          image: watchdg/repo
+          imagePullPolicy: Always
+          workingDir: /opt/airflow/dags
+          command:
+            - sh
+            - -c
+            - git clone $(GIT_REPO) . && watch -n 60 git pull
+          env:
+            - name: GIT_REPO
+              value: https://github.com/WatchDG/airflow-dags.git
+          volumeMounts:
+            - name: dags
+              mountPath: /opt/airflow/dags
         - name: web
           image: watchdg/airflow:1
           imagePullPolicy: Always
@@ -33,3 +47,9 @@ spec:
                 name: airflow
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: dags
+              mountPath: /opt/airflow/dags
+      volumes:
+        - name: dags
+          emptyDir: {}

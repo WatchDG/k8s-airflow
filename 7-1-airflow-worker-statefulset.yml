@@ -15,6 +15,20 @@ spec:
         app: worker
     spec:
       containers:
+        - name: repo
+          image: watchdg/repo
+          imagePullPolicy: Always
+          workingDir: /opt/airflow/dags
+          command:
+            - sh
+            - -c
+            - git clone $(GIT_REPO) . && watch -n 60 git pull
+          env:
+            - name: GIT_REPO
+              value: https://github.com/WatchDG/airflow-dags.git
+          volumeMounts:
+            - name: dags
+              mountPath: /opt/airflow/dags
         - name: worker
           image: watchdg/airflow:1
           imagePullPolicy: Always
@@ -25,3 +39,9 @@ spec:
           envFrom:
             - secretRef:
                 name: airflow
+          volumeMounts:
+            - name: dags
+              mountPath: /opt/airflow/dags
+      volumes:
+        - name: dags
+          emptyDir: {}
