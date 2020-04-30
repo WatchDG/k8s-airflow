@@ -16,6 +16,7 @@ spec:
       containers:
         - name: scheduler
           image: watchdg/airflow:1
+          imagePullPolicy: Always
           args:
             - scheduler
           envFrom:

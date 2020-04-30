@@ -16,6 +16,7 @@ spec:
       initContainers:
         - name: init
           image: watchdg/airflow:1
+          imagePullPolicy: Always
           args:
             - initdb
           envFrom:
